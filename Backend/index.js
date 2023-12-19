@@ -3,6 +3,12 @@ import urlRouter from './routes/url.js';
 import { ConnectDB } from './db/connection.js';
 import { URL } from './model/url.model.js';
 import cors from 'cors';
+import userRouter from './routes/user.js';
+import dotenv from 'dotenv';
+
+dotenv.config({
+    path: './.env'
+});
 
 const app = express()
 //access to to all origin
@@ -16,6 +22,8 @@ const port = 3000
 ConnectDB();
 
 app.use('/url', urlRouter)
+
+app.use('/users', userRouter)
 
 app.get('/:shortID', async (req, res) => {
     const shortID = req.params.shortID;
