@@ -21,4 +21,13 @@ async function generateShortUrl(req, res) {
     })
 }
 
-export default generateShortUrl;
+export const deleteUrl = async (req, res) => {
+    const id = req.params.id
+    const exx = await URL.findOneAndDelete({_id: id})
+    res.status(200).json({
+        message: "Deleted"
+    })
+}
+
+
+export default generateShortUrl

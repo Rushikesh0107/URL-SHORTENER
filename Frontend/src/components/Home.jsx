@@ -18,13 +18,25 @@ function Home({isLogin}) {
     setdata('');
   }
 
+  const handleDelete = async (id) => {
+    await axios.delete(`http://localhost:3000/url/${id}`)
+    .then((res) => {
+      if(res.status == 200){
+        console.log("bingo");
+      }
+    })
+    .catch((err) => {
+      return err.message;
+    })
+  }
+
   useEffect(()=> {
     const getData = async () => {
         await axios.get(`http://localhost:3000`)
         .then((res)=> setallData(res.data))
     }
     getData();
-  }, [allData])
+  }, [allData, handleDelete])
 
 
   return (
@@ -80,7 +92,13 @@ function Home({isLogin}) {
                         return (
                         <tr key={item._id}>
                             <td className="py-2 px-4 border text-center">{item.shortID}</td>
-                            <td className="py-2 px-4 border text-center">{item.redirectUrl}</td>
+                            <td className="py-2 px-4 border text-center grid grid-cols-2">
+                              {item.redirectUrl}
+                              <td 
+                              className='bg-red-300 font-bold w-1/2 p-2 rounded-xl hover:cursor-pointer mx-auto'
+                              onClick={() => handleDelete(item._id)}
+                              >Delete</td>
+                              </td>
                             <td className="py-2 px-4 border text-center">{item.visitHistory.length}</td>
                         </tr>
                         )
